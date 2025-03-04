@@ -1,12 +1,10 @@
 import { useState } from "react";
 import useControlStore from "./useControlStore";
-import { ColorPicker, useColor } from "react-color-palette";
+import Colors from "./Colors";
 
 const Controls = () => {
   const [open, setOpen] = useState(false);
   const controls = useControlStore();
-  const [starFill, setStarFill] = useColor(controls.starFill);
-  const [glowColor, setGlowColor] = useColor(controls.glowColor);
 
   const handleChange = (e, setter) => {
     const value =
@@ -20,61 +18,28 @@ const Controls = () => {
         <button
           onClick={() => setOpen(true)}
           className="text-lg text-white bg-black border mr-4 mb-4 border-white rounded-lg px-4 py-2
-           hover:bg-white hover:text-black transition duration-300 ease-in-out"
+           hover:bg-white hover:text-black transition duration-300 ease-in-out w-32"
         >
           Settings
         </button>
       ) : (
-        <div className="flex flex-col gap-4 bg-gray-800 w-[350px] max-h-[80vh] overflow-y-auto rounded-lg transition duration-300 ease-in-out p-6 text-white">
+        <div className="flex flex-col gap-4 bg-zinc-200 text-black w-[350px] max-h-[80vh] overflow-y-auto rounded-lg transition duration-300 ease-in-out p-4 ">
           <h2 className="text-xl font-semibold border-b pb-2">
             Twinkle Settings
           </h2>
-          <div className="flex flex-col gap-4 overflow-scroll">
+          <div className="flex flex-col gap-4 overflow-y-scroll">
             {/* Text Setting */}
             <div className="flex flex-col gap-1">
-              <label className="text-sm opacity-80">Text</label>
+              <label className=" font-semibold opacity-80">Text</label>
               <input
                 type="text"
                 value={controls.text}
                 onChange={(e) => handleChange(e, controls.setText)}
-                className="bg-gray-700 rounded px-3 py-1.5 border border-gray-600"
+                className="bg-zinc-300 rounded px-3 py-1.5 border border-zinc-300 outline-none focus:border-black transition duration-300 ease-in-out"
               />
             </div>
 
-            {/* Colors */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="flex flex-col gap-1">
-                <label className="text-sm opacity-80">Star Color</label>
-                <div className="flex items-center gap-2">
-                  <ColorPicker
-                    color={starFill}
-                    width={100}
-                    onChange={setStarFill}
-                    onChangeComplete={(color) => {
-                      controls.setStarFill(color.hex);
-                    }}
-                    hideHSV
-                    hideHEX
-                  />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-1">
-                <label className="text-sm opacity-80">Glow Color</label>
-                <div className="flex items-center gap-2">
-                  <ColorPicker
-                    color={glowColor}
-                    width={100}
-                    onChange={setGlowColor}
-                    onChangeComplete={(color) => {
-                      controls.setGlowColor(color.hex);
-                    }}
-                    hideHSV
-                    hideHEX
-                  />
-                </div>
-              </div>
-            </div>
+            <Colors />
 
             {/* Star Size Controls */}
             <div className="border-t border-gray-600 pt-3 mt-2">
@@ -306,8 +271,8 @@ const Controls = () => {
 
           <button
             onClick={() => setOpen(false)}
-            className="text-lg text-white bg-indigo-600 rounded-lg px-4 py-2 mt-4
-            hover:bg-indigo-700 transition duration-300 ease-in-out self-end"
+            className="text-lg text-white bg-black border border-white rounded-lg px-4 py-2
+           hover:bg-white hover:text-black transition duration-300 ease-in-out w-32 self-end"
           >
             Save
           </button>

@@ -21,7 +21,7 @@ const useControlStore = create((set) => ({
   falltime: 0.7,
   starFill: "white",
   glow: 4,
-  glowColor: "rgba(255, 255, 255, 0.5)",
+  glowColor: "rgba(255, 255, 255, 1)",
   backgroundColor: "black",
   setGlowColor: (glowColor) => set({ glowColor }),
   setStarFill: (starFill) => set({ starFill }),
