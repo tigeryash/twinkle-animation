@@ -2,22 +2,32 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Star from "./Star";
 // eslint-disable-next-line no-unused-vars
 import gsap from "gsap";
+import Controls from "./Controls";
+import useControlStore from "./useControlStore";
 
 function App() {
   const [stars, setStars] = useState([]);
   const starsRef = useRef(new Map());
+  const controls = useControlStore();
 
   const animatedStars = useRef(new Set());
 
   const createStar = useCallback(() => {
     // Make randomness more pronounced
-    const randomHeight = Math.floor(Math.random() * 60); // 20-80px
-    const randomWidth = Math.floor(Math.random() * 60); // 20-80px
-    const randomLeft = Math.floor(Math.random() * 98) + 2; // 5-95%
+    const randomHeight =
+      Math.floor(Math.random() * controls.maxHeight) + controls.minHeight; // 20-80px
+    const randomWidth =
+      Math.floor(Math.random() * controls.maxWidth) + controls.minWidth; // 20-80px
+    const randomLeft =
+      Math.floor(Math.random() * controls.maxLeft) + controls.minLeft; // 5-95%
 
     // More variance in fall distance
-    const fallDistance = Math.floor(Math.random() * 100) + 100; // 400-1000px
-    const fallDuration = Math.floor(Math.random() * 4) + 3; // 3-7 seconds
+    const fallDistance =
+      Math.floor(Math.random() * controls.maxFallDistance) +
+      controls.minFallDistance; // 400-1000px
+    const fallDuration =
+      Math.floor(Math.random() * controls.maxFallDuration) +
+      controls.minFallDuration; // 3-7 seconds
 
     return {
       id: Date.now() + Math.random(), // Truly unique ID
@@ -28,7 +38,7 @@ function App() {
       fallDuration,
       visible: true,
     };
-  }, []);
+  }, [controls]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -95,7 +105,8 @@ function App() {
   );
   return (
     <main className="flex min-h-screen items-center justify-center bg-black relative overflow-hidden w-full">
-      <h1 className="text-6xl font-bold text-white  ">Heh I did iiit</h1>
+      <Controls />
+      <h1 className="text-6xl font-bold text-white  ">{controls.text}</h1>
       {stars.map((star) => (
         <div
           key={star.id}
@@ -108,10 +119,12 @@ function App() {
           }}
         >
           <Star
-            fill="rgb(255,255,255)"
+            fill={controls.starFill}
             style={{
+              opacity: controls.opacity,
               width: `${star.width}px`,
               height: `${star.height}px`,
+              filter: `drop-shadow(0 0 ${controls.glow}px ${controls.glowColor})`,
             }}
           />
         </div>
